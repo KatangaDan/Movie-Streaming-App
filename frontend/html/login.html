@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-black min-h-screen">
+
+    <header class="flex flex-row items-center justify-between p-5">
+        <a href="/" class="text-red-600 text-3xl font-bold">Jetflix</a>
+        <button type="button" class="bg-red-600 rounded-md text-white w-20 h-10 ">Sign In</button>
+    </header>
+
+    <main class="flex flex-col justify-center items-center space-y-2 mt-60">
+        <h1 class="text-white text-4xl font-bold">Unlimited movies, TV shows, and more.</h1>
+        
+        <p class="text-white text-2xl">Watch anywhere. Cancel anytime.</p>
+        
+        <div id="alert" class="bg-red-400 bg-opacity-80 text-red-800 text-center w-1/2 p-2 rounded-sm hidden">Oopsie, an error has occured</div>
+        <div id="success" class="bg-green-400 bg-opacity-80 text-green-800 text-center w-1/2 p-2 rounded-sm hidden">Yay! Something good has happened!</div>
+
+        <div id="email-form" class="flex flex-col space-y-2 w-1/2">
+            <input type="email" id="email" placeholder="Email address" class="bg-white  p-2 rounded-sm">
+            <button type="button" id="continue" class="bg-red-600 text-white text-xl  p-2 rounded-sm  hover:bg-red-400">Continue</button>
+        </div>
+        
+        <!-- display password field after user clicked continue -->
+         <div id="passwords-form" class=" flex-col space-y-2 w-1/2 hidden">
+            <input type="password" id="psw" placeholder="Password" class="bg-white  p-2 rounded-sm ">
+            <input type="password" id="confirm-psw" placeholder="Confirm Password" class="bg-white p-2 rounded-sm ">
+            <button type="button" id="continue-2" class="bg-red-600 text-white text-xl  p-2 rounded-sm  hover:bg-red-400">Continue</button>
+         </div>
+        
+        
+    </main>
+    
+</body>
+<script src="../js/register.js"></script>
+</html>
