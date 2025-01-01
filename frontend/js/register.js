@@ -7,15 +7,18 @@ document.addEventListener("DOMContentLoaded", function (){
     var firstForm= document.getElementById("email-form");
     var nextForm = document.getElementById("passwords-form");
 
+    let email;
+    let password;
+
     continueBtn.addEventListener("click", function(event){
 
         event.preventDefault();
 
-        var email = document.getElementById("email").value;
+        email = document.getElementById("email").value;
         
         if(!email || email==""){
             alertBox.style.display = "block";
-            alertBox.textContent = "Please fill in an appropriate email address";
+            alertBox.innerHTML = "Please fill in an appropriate email address";
             return;
         }
         
@@ -34,18 +37,55 @@ document.addEventListener("DOMContentLoaded", function (){
 
         if(!psw || psw=="" || !confirm_psw || confirm_psw==""){
             alertBox.style.display = "block";
-            alertBox.textContent = "Please fill in both password fields";
+            alertBox.innerHTML = "Please fill in both password fields";
             return;
         }
 
         if(psw != confirm_psw){
             alertBox.style.display = "block";
-            alertBox.textContent = "Passwords do not match";
+            alertBox.innerHTML = "Passwords do not match";
             return;
         }
 
+        password= psw;
+
         alertBox.style.display = "none";
-        successBox.style.display = "block";
-        successBox.textContent = "Everything good so far!";
+        // successBox.style.display = "block";
+        // successBox.innerHTML = "Everything good so far!";
+
+        // console.log(email);
+        // console.log(password);
+        
+
+        fetch('/auth/register', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+            email: email,
+            password: password
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alertBox.style.display = "block";
+                alertBox.innerHTML = data.error || "An error occurred";                     
+            } else {
+                successBox.style.display = "block";          
+                successBox.innerHTML = data.message;
+                console.log(data.message);
+
+            // Redirect or perform other actions 
+                setTimeout(function() {
+                    window.location.href = "/home";
+                }, 3000); // 3-second delay
+                }
+        })
+        .catch(error => {
+            alertBox.style.display = "block";
+            alertBox.innerHTML = "An error occurred: " + error.message;
+        });
     });
 })
