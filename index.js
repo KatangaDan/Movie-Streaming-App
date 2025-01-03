@@ -35,6 +35,10 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend/html/landing.html'));
 });
 
+app.get('/register', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend/html/register.html'));
+});
+
 app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend/html/login.html'));
 });

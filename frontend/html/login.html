@@ -3,39 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Login</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-black min-h-screen">
 
     <header class="flex flex-row items-center justify-between p-5">
         <a href="/" class="text-red-600 text-3xl font-bold">Jetflix</a>
-        <button type="button" class="bg-red-600 rounded-md text-white w-20 h-10 ">Sign In</button>
+        <!-- <button type="button" class="bg-red-600 rounded-md text-white w-20 h-10 "><a href="/login">Sign In</a></button> -->
     </header>
 
-    <main class="flex flex-col justify-center items-center space-y-2 mt-60">
-        <h1 class="text-white text-4xl font-bold">Unlimited movies, TV shows, and more.</h1>
-        
-        <p class="text-white text-2xl">Watch anywhere. Cancel anytime.</p>
-        
-        <div id="alert" class="bg-red-400 bg-opacity-80 text-red-800 text-center w-1/2 p-2 rounded-sm hidden">Oopsie, an error has occured</div>
-        <div id="success" class="bg-green-400 bg-opacity-80 text-green-800 text-center w-1/2 p-2 rounded-sm hidden">Yay! Something good has happened!</div>
+    <main class="flex flex-col items-center ">
 
-        <div id="email-form" class="flex flex-col space-y-2 w-1/2">
-            <input type="email" id="email" placeholder="Email address" class="bg-white  p-2 rounded-sm">
-            <button type="button" id="continue" class="bg-red-600 text-white text-xl  p-2 rounded-sm  hover:bg-red-400">Continue</button>
+        <div id="popup" class="flex flex-col bg-white rounded-lg w-1/3  absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+
+            <div id="form-section" class="space-y-5 p-20 pb-5">
+
+                <h1 id="popup-title" class="text-4xl font-bold">Sign In</h1>
+
+                <div id="alert" class="bg-red-400 bg-opacity-80 text-red-800 text-center p-2 rounded-sm hidden">Oopsie, an error has occured</div>
+                <div id="success" class="bg-green-400 bg-opacity-80 text-green-800 text-center p-2 rounded-sm hidden">Yay! Something good has happened!</div>
+
+                <div class="flex flex-col items-start space-y-5">
+                    <input type="text" placeholder="Email" id="email" class="p-2 w-full bg-gray-200 rounded-md">
+                    <input type="password" placeholder="Password" id="psw" class="p-2 w-full bg-gray-200 rounded-md">
+                    <button type="button" id="submit-btn" class="bg-red-600 text-white font-bold rounded-lg py-2 hover:bg-red-400 p-5 w-full">Sign In</button>
+                </div>
+
+                <div class="flex flex-row  space-x-2">
+                    <input type="checkbox"  id="remember-me">
+                    <p>Remember me</p>
+                </div>
+
+            </div>
+
+            <div class="flex flex-col items-center">
+                <div class="border-b-4 border- border-gray-800 w-11/12"></div>
+            </div>  
+            
+            <div class="p-20 pt-5 flex flex-col items-start">
+                <p class="text-xl">
+                    Are you new to Jetflix? <a href="/register" class="text-2xl font-semibold hover:underline">Sign up now</a>
+                </p>
+            </div>
+
         </div>
-        
-        <!-- display password field after user clicked continue -->
-         <div id="passwords-form" class=" flex-col space-y-2 w-1/2 hidden">
-            <input type="password" id="psw" placeholder="Password" class="bg-white  p-2 rounded-sm ">
-            <input type="password" id="confirm-psw" placeholder="Confirm Password" class="bg-white p-2 rounded-sm ">
-            <button type="button" id="continue-2" class="bg-red-600 text-white text-xl  p-2 rounded-sm  hover:bg-red-400">Continue</button>
-         </div>
-        
-        
     </main>
     
 </body>
-<script src="../js/register.js"></script>
+<script src="../js/login.js"></script>
 </html>

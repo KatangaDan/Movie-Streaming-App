@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function (){
 
             // Redirect or perform other actions 
                 setTimeout(function() {
-                    window.location.href = "/home";
+                    window.location.href = "/login";
                 }, 3000); // 3-second delay
                 }
         })
