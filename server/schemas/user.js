@@ -11,6 +11,10 @@ const profileSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    isChildProfile: {
+        type: Boolean,
+        required: false,
+    },
     createdAt: {
         type: Date,
         default: Date.now,
@@ -32,6 +36,10 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         required: false,
     },
+    role: {
+        type: String,
+        required: true,
+      },
     profiles: {
         type: [profileSchema], // Array of embedded profiles
         validate: {

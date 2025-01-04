@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import authRoutes from './server/routes/authRoutes.js'
+import profileRoutes from './server/routes/profileRoutes.js'
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
@@ -28,6 +29,7 @@ app.use(express.static(path.join(__dirname, 'frontend')));
 
 app.use('/public',express.static(path.join(__dirname, 'public')));
 app.use('/auth',authRoutes);
+app.use('/profiles',profileRoutes);
 
 
 

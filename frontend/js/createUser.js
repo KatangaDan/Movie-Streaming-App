@@ -48,19 +48,48 @@ document.addEventListener("DOMContentLoaded", function(){
         const isChildProfile = childProfileToggle.checked; // returns true or false
         // console.log(isChildProfile); 
         
-        // Store the data in localStorage
-        const userProfile = { username, imgUrl  };
-        const profiles = JSON.parse(localStorage.getItem("profiles")) || [];
-        profiles.push(userProfile);
-        localStorage.setItem("profiles", JSON.stringify(profiles));
+        // // Store the data in localStorage
+        // const userProfile = { username, imgUrl  };
+        // const profiles = JSON.parse(localStorage.getItem("profiles")) || [];
+        // profiles.push(userProfile);
+        // localStorage.setItem("profiles", JSON.stringify(profiles));
 
-        successBox.style.display= "block";
-        successBox.innerHTML= "Profile sucessfully created. Redirecting ...";
+        // successBox.style.display= "block";
+        // successBox.innerHTML= "Profile sucessfully created. Redirecting ...";
 
-        // Redirect to home.html
-        setTimeout(function(){
-            window.location.href= "/home"
-        }, 3000);
+        // // Redirect to home.html
+        // setTimeout(function(){
+        //     window.location.href= "/home"
+        // }, 3000);
+
+        fetch('/profiles/addProfile', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+            username: username,
+            imgUrl: imgUrl,
+            isChildProfile: isChildProfile
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+            successBox.style.display = "block";
+            successBox.innerHTML = "Profile successfully created. Redirecting ...";
+            setTimeout(function() {
+                window.location.href = "/home";
+            }, 3000);
+            } else {
+            alertBox.style.display = "block";
+            alertBox.innerHTML = "Error creating profile: " + data.message;
+            }
+        })
+        .catch(error => {
+            alertBox.style.display = "block";
+            alertBox.innerHTML = "Error creating profile: " + error.message;
+        });
         
 
     })

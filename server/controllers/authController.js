@@ -1,5 +1,10 @@
 import User from '../schemas/user.js'
 import bcrypt from "bcrypt";
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+
+
+dotenv.config();
 
 export const register = async (req, res) => {
 	
@@ -24,7 +29,8 @@ export const register = async (req, res) => {
         // store as a new user 
         const newUser = new User({
             email,
-            password: hashedPassword
+            password: hashedPassword,
+            role: "admin"
         });
 
         await newUser.save();
@@ -60,19 +66,50 @@ export const login = async (req,res) =>{
         return res.status(400).json({ error: "Invalid password" });
         }
 
-        // send the user a cookie if they want to be remembered 
+        // Use rememberMe to set different token expiration times
+        let tokenExpiration;
+
         if (rememberMe) {
-        res.cookie("rememberMe", "true", {
+            tokenExpiration = '7d'; // Token expires in 7 days if rememberMe is true
+        } else {
+            tokenExpiration = '1h'; // Token expires in 1 hour if rememberMe is false
+        }        
+
+        // Generate a JWT
+        const token = jwt.sign(
+            { email: existing.email, role: existing.role },
+            process.env.JWT_SECRET,
+            { expiresIn: tokenExpiration } // Adjust expiration based on rememberMe
+        );
+
+        // Set token as an HttpOnly cookie
+        const maxAge = rememberMe ? 7 * 24 * 60 * 60 * 1000 :  60 * 60 * 1000; // 7 days or 24 hours
+
+        res.cookie('token', token, {
             httpOnly: true,
-            maxAge: 604800000, // 7 days
-        });
-        }
+            secure: true,
+            maxAge
+        });      
+
 
         res.status(200).json({success: true, message:"Login successful!" });
         
     } catch (error) {
         console.log("Error logging in user:", error);
         res.status(500).json({ error: "Error logging in user" });
+    }
+};
+
+export const logout = (req, res) => {
+    try {
+        res.clearCookie('token', {
+            httpOnly: true,
+            secure: true
+        });
+        res.status(200).json({ success: true, message: "Logout successful!" });
+    } catch (error) {
+        console.log("Error logging out user:", error);
+        res.status(500).json({ error: "Error logging out user" });
     }
 };
 
