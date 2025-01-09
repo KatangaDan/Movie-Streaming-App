@@ -44,7 +44,7 @@ const userSchema = new mongoose.Schema({
         type: [profileSchema], // Array of embedded profiles
         validate: {
             validator: function (profiles) {
-                return profiles.length <= 5; // Maximum of 5 profiles
+                return profiles.length <= 4; // Maximum of 5 profiles
             },
             message: "A user can have a maximum of 5 profiles.",
         },

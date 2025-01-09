@@ -26,6 +26,9 @@ window.addEventListener("DOMContentLoaded", function (event) {
                 img.src = imgUrl;
                 img.alt = `Profile of ${username}`;
                 img.className = "w-32 h-32 rounded-full border-4 border-white inline-block";
+                img.onclick = function () {
+                    showPopup(username);
+                };
 
                 link.appendChild(img);
 
@@ -34,16 +37,36 @@ window.addEventListener("DOMContentLoaded", function (event) {
                 label.className = "text-white text-2xl";
                 label.textContent = username;
 
-                const button = document.createElement("button");
-                button.className = "mt-2 px-4 py-2 bg-red-600 text-white rounded";
-                button.textContent = "View Profile";
-                button.onclick = function () {
-                    showPopup(username);
-                };
+                const deleteProfileBtn = document.createElement("deleteProfileBtn");
+                deleteProfileBtn.className = "mt-2 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-400";
+                deleteProfileBtn.textContent = "Delete Profile";
+                deleteProfileBtn.onclick = 
+                function () {
+                    fetch('/profiles/deleteProfile', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ username: username })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Remove the profile from the DOM
+                            profileDiv.remove();
+                            console.log(`Profile ${username} deleted successfully.`);
+                        } else {
+                            console.error(`Failed to delete profile ${username}:`, data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error deleting profile:', error);
+                    });
+                }
 
                 profileDiv.appendChild(link);
                 profileDiv.appendChild(label);
-                profileDiv.appendChild(button);
+                profileDiv.appendChild(deleteProfileBtn);
 
                 // Append to profiles container
                 profilesContainer.appendChild(profileDiv);
@@ -63,7 +86,20 @@ window.addEventListener("DOMContentLoaded", function (event) {
     });
 });
 
-// Function to display a popup for a user profile
-function showPopup(username) {
-    alert(`Viewing profile for ${username}`);
+
+function showPopup(profileName) {
+    // Update the popup content dynamically
+    document.getElementById('popup-title').innerText = `Profile: ${profileName}`;
+
+    //get info stored about user in the database
+    document.getElementById('popup-content').innerText = `Details about ${profileName}.`;
+    
+    // Show the popup
+    document.getElementById('popup').classList.remove('hidden');
+    document.getElementById('popup').classList.add('flex');
+}
+
+function hidePopup() {
+    // Hide the popup
+    document.getElementById('popup').classList.add('hidden');
 }

@@ -69,9 +69,45 @@ export const getProfiles = async (req, res) => {
             return res.status(404).json({ error: "User not found" });
         }
         
-        console.log("Profiles sent:");
+        console.log("Profiles sent succesfully sent");
         
         res.status(200).json({ profiles: user.profiles });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+};
+
+
+export const deleteProfile = async (req, res) => {
+    try {
+        const {username } = req.body;
+
+        // Extract email from the cookie
+        const token = req.cookies.token;
+        if (!token) {
+            return res.status(401).json({ error: "No token provided" });
+        }
+
+        let email;
+        try {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            email = decoded.email;
+        } catch (err) {
+            return res.status(401).json({ error: "Invalid token" });
+        }
+
+        // Find the user and return their profiles
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        // Remove the profile by username
+        user.profiles = user.profiles.filter(profile => profile.username !== username);
+        await user.save();
+
+        res.status(200).json({success: true, message: "Profile deleted successfully", profiles: user.profiles });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Internal server error" });
